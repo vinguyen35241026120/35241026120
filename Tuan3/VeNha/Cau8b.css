@@ -1,0 +1,105 @@
+/* Toàn trang */
+body {
+    font-family: "Georgia", serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* Khung bao quanh lớn */
+#root {
+    width: 1024px;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Tiêu đề chính */
+#site-header {
+    text-align: center;
+    background-color: #b4b4b4;
+    color: #fff;
+    margin: 0;
+    padding: 15px 0;
+    text-shadow: 1px 1px 3px black;
+    font-size: 1.8em;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+/* Biểu tượng con dơi phía trước tiêu đề (tùy chọn nếu muốn thêm) */
+#site-header::before {
+    content: "";
+    margin-right: 10px;
+}
+
+/* Danh sách các siêu anh hùng */
+.superheroes {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin: 0;
+}
+
+/* Từng ô anh hùng */
+.superheroes li {
+    width: 180px;
+    text-align: center;
+    margin: 10px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Hình ảnh */
+.superheroes img {
+    width: 100%;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    display: block;
+    transition: all 0.3s ease;
+    max-width: 100%;
+}
+
+/* Tiêu đề nhỏ trên hình */
+.hero-header {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 4px black;
+}
+
+/* Link “Read more” */
+.superheroes a {
+    display: none;
+    background-color: #555;
+    color: white;
+    text-decoration: underline;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9em;
+}
+
+/* Hiệu ứng Hover */
+.superheroes li:hover {
+    transform: scale(1.05);
+}
+
+/* Khi hover vào ô anh hùng */
+.superheroes li:hover img {
+    opacity: 0.8;
+    border-color: #999;
+}
+
+/* Khi hover: hiện “Read more” */
+.superheroes li:hover a {
+    display: inline-block;
+}

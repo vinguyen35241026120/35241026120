@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bài tập CSS UEH</title>
+
+<style>
+  /* a. Đại học UEH */
+  h1 {
+    color: blue;             /* chữ xanh */
+    text-align: center;      /* canh giữa */
+    font-weight: bold;       /* in đậm */
+    text-decoration: underline; /* gạch chân */
+    font-size: 30px;         /* kích cỡ 30px */
+  }
+
+  /* b. Khoa CNTTD */
+  h2 {
+    color: red;                      /* chữ đỏ */
+    text-align: right;               /* canh phải */
+    font-style: italic;              /* in nghiêng */
+    border: 2px dotted yellow;       /* đường viền chấm vàng */
+    border-radius: 10px;             /* bo góc */
+    background-color: gray;          /* nền xám */
+    font-size: 15px;                 /* kích thước chữ 15px */
+    opacity: 0.5;                    /* chữ mờ 50% */
+    padding: 5px;
+  }
+
+  /* c. Định dạng chữ BIT-UEH */
+  .bit-logo {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: bold;
+    color: #003399;
+    font-size: 24px;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  }
+
+  /* d. Lấy logo BIT làm hình nền lặp lại và cố định */
+  body {
+    background-image: url("https://bit.ueh.edu.vn/wp-content/uploads/2017/06/BIT_logo.png");
+    background-repeat: repeat;   /* lặp lại */
+    background-attachment: fixed; /* cố định khi cuộn */
+    background-size: 30px;       /* kích cỡ logo 30px */
+  }
+
+  /* e. Đoạn văn yêu cầu */
+  p {
+    width: 100px;               /* rộng 100px */
+    height: 50px;               /* cao 50px */
+    overflow: hidden;           /* ẩn nội dung tràn */
+    text-overflow: ellipsis;    /* cắt nội dung bằng dấu “...” */
+    white-space: nowrap;        /* không xuống dòng */
+    border: 1px solid #333;
+    padding: 5px;
+    background-color: #fff;
+  }
+</style>
+</head>
+
+<body>
+
+  <h1>Đại học UEH</h1>
+
+  <h2>Khoa Công nghệ Thông tin và Truyền thông</h2>
+
+  <div class="bit-logo">BIT-UEH</div>
+
+  <p>
+    Nhu cầu xã hội Ngành Thương mại điện tử (TMĐT) tại Việt Nam hiện nay đang có những bước tăng trưởng mạnh mẽ và ngày càng đóng góp nhiều hơn cho sự phát triển kinh tế xã hội của đất nước. Thị trường TMĐT Việt Nam đã trở nên sôi động hơn khi có nhiều...
+  </p>
+
+</body>
+</html>

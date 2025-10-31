@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Học web chuẩn</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin: 20px 0 10px;
+  }
+
+  .list-tab {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 30px;
+  }
+  .list-tab li { display: inline-block; margin: 0 10px; }
+  .list-tab a { text-decoration: none; color: #333; font-weight: 500; }
+  .list-tab a:hover,
+  .list-tab li:first-child a { color: #0099ff; border-bottom: 2px solid #0099ff; padding-bottom: 4px; }
+
+  /* Gallery grid */
+  .galerry {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 40px;
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cột */
+    gap: 20px;
+    justify-content: center;
+  }
+
+  /* Nếu muốn giữ ảnh cho các ô khác */
+  .galerry img {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+  }
+
+  /* cho link trong ô không có gạch chân */
+  .galerry a { text-decoration: none; color: inherit; }
+</style>
+</head>
+
+<body>
+<section class="portfolio">
+  <h2>MY PORTFOLIO</h2>
+  <ul class="list-tab">
+    <li><a href="./">All</a></li>
+    <li><a href="./">Web App</a></li>
+    <li><a href="./">UI/UX</a></li>
+    <li><a href="./">Graphics Design</a></li>
+    <li><a href="./">Mobile App</a></li>
+    <li><a href="./">Branding</a></li>
+    <li><a href="./">Marketing</a></li>
+  </ul>
+
+  <ul class="galerry">
+<li><a href="./"><img src=" https://tse2.mm.bing.net/th/id/OIP.cgpS1FDWBDw4myMF-BOX3AHaE8?pid=Api&P=0&h=180" alt=""></a></li>
+<li><a href="./"><img src=" https://img1.wsimg.com/isteam/stock/18601" alt=""></a></li>
+<li><a href="./"><img src=" https://www.publicdomainpictures.net/pictures/100000/velka/tree-1411733245lgZ.jpg" alt=""></a></li>
+<li><a href="./"><img src=" https://tse2.mm.bing.net/th/id/OIP.ZVAyiKs3-sbJMTJ--UATswHaE8?pid=Api&P=0&h=180" alt=""></a></li>
+<li><a href="./"><img src=" https://images.freeimages.com/images/large-previews/53b/trees-1057599.jpg" alt=""></a></li>
+<li><a href="./"><img src=" https://www.vmcdn.ca/f/files/shared/miscellaneous-stock-images/bigoldtree.jpeg;w=1200;h=800;mode=crop" alt=""></a></li>
+<li><a href="./"><img src="https://tse2.mm.bing.net/th/id/OIP.jd0jUWi99gQjqIR2BL_NzQHaE8?pid=Api&P=0&h=180" alt=""></a></li>
+<li><a href="./"><img src=" https://treecaretips.org/wp-content/uploads/2017/04/Untitled-4.jpg" alt=""></a></li>
+<li><a href="./"><img src=" https://guelph.ca/wp-content/uploads/trees.jpg" alt=""></a></li>
+</ul>
+</section>
+</body>
+</html>
+
