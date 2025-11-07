@@ -1,0 +1,90 @@
+body {
+  background-color: #e6f7ff; /* nền thành màu xanh nhạt */
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.view {
+  width: 300px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+}
+
+.view img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: all 0.2s linear;
+}
+
+.view .mask {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  left: -300px; /* bắt đầu ngoài bên trái */
+  width: 300px;
+  height: 200px;
+  opacity: 0;
+  transition: all 0.4s ease-in-out;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.view .mask h2 {
+  margin: 0;
+  padding: 10px 0;
+  transform: translateY(-100px);
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.view .mask p {
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.2s linear;
+}
+
+.view .mask a.info {
+  display: inline-block;
+  text-decoration: none;
+  padding: 7px 14px;
+  background: #000;
+  color: #fff;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Khi hover: “chạy từ trái sang phải” */
+.view.view-first:hover img {
+  transform: scale(1.1);
+}
+
+.view.view-first:hover .mask {
+  opacity: 1;
+  left: 0; /* di chuyển từ -300px -> 0 */
+}
+
+.view.view-first:hover h2,
+.view.view-first:hover p,
+.view.view-first:hover a.info {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.view.view-first:hover p {
+  transition-delay: 0.1s;
+}
+
+.view.view-first:hover a.info {
+  transition-delay: 0.2s;
+}

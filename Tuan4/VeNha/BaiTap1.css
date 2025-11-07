@@ -1,0 +1,25 @@
+body {
+  background-color: #f9f9f9;
+  text-align: center;
+  margin-top: 150px;
+  font-family: Arial, sans-serif;
+}
+
+/* Trạng thái ban đầu của chữ */
+.hover-text {
+  display: inline-block;
+  background-color: blue;
+  color: white;
+  font-size: 20px;
+  padding: 20px 40px;
+  border-radius: 10px;
+  transition: all 0.6s ease; /* hiệu ứng chuyển mượt */
+  transform: matrix(1, 0, 0, 1, 0, 0);
+}
+
+/* Khi hover chuột vào */
+.hover-text:hover {
+  background-color: red; /* đổi nền sang đỏ */
+  font-size: 50px;       /* tăng kích thước chữ */
+  transform: matrix(1.4, -0.54, 0.54, 1.4, 0, 0); /* nghiêng + phóng to */
+}
