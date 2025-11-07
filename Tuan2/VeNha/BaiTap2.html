@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài tập HTML - Hình nền, nhạc nền, chữ chạy</title>
+  <style>
+    body {
+      /* Hình nền — bạn có thể thay bằng link ảnh khác hoặc ảnh trong máy */
+      background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b');
+      background-size: cover;          /* phủ toàn bộ màn hình */
+      background-repeat: no-repeat;
+      background-attachment: fixed;    /* cố định khi cuộn trang */
+      text-align: center;
+      color: blue;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      margin-top: 50px;
+      color: yellow;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- 🎵 Nhạc nền -->
+  <audio autoplay loop>
+    <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ phát nhạc.
+  </audio>
+
+  <!-- 🏫 Chữ chạy -->
+  <marquee behavior="scroll" direction="left" scrollamount="10">
+    <h1>Chào mừng bạn đến website của trường ĐHKT TP.HCM</h1>
+  </marquee>
+</body>
+</html>
