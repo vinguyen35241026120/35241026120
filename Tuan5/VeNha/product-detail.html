@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+    <!-- xZoom -->
+    <link rel="stylesheet" href="xzoom.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="xzoom.min.js"></script>
+</head>
+
+<body>
+<header>
+    <div class="logo">Fashion Store</div>
+    <nav>
+        <a href="index.html">Trang chủ</a>
+        <a href="products.html">Sản phẩm</a>
+        <a href="cart.html">Giỏ hàng</a>
+    </nav>
+</header>
+
+<div class="detail-container">
+
+    <div class="gallery">
+        <img class="xzoom" id="mainImage"
+             src="https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lgou6rhldng30d"
+             xoriginal="img/ao1-large.jpg">
+
+        <div class="xzoom-thumbs">
+            <a href="img/ao1-large.jpg">
+                <img class="xzoom-gallery" src="https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lgpxnzl0sycz8b">
+            </a>
+
+            <a href="img/ao1-2-large.jpg">
+                <img class="xzoom-gallery" src="https://dongphucvinhphat.com/wp-content/uploads/2017/12/679937afd7fc38a261ed.png">
+            </a>
+        </div>
+    </div>
+
+    <div class="info">
+        <h2>Áo thun nam form rộng</h2>
+        <p class="price">250.000 đ</p>
+
+        <p>Chất liệu: Cotton 100%</p>
+
+        <p>Size:</p>
+        <div class="options">
+            <span class="opt">S</span>
+            <span class="opt">M</span>
+            <span class="opt">L</span>
+        </div>
+
+        <p>Màu:</p>
+        <div class="options">
+            <span class="opt">Trắng</span>
+            <span class="opt">Đen</span>
+        </div>
+
+        <a class="btn" href="cart.html">Thêm vào giỏ hàng</a>
+
+        <div class="stock-status">
+    <p>Số lượng tồn kho: 10</p>
+    <div class="progress">
+        <div class="progress-bar progress-bar-success" role="progressbar"
+             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width:5%">
+            5%
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+    
+<footer>© 2025 Fashion Store | Vi</footer>
+
+<script>
+    $(document).ready(function () {
+        $('.xzoom, .xzoom-gallery').xzoom({
+            zoomWidth: 400,
+            title: false
+        });
+    });
+</script>
+
+</body>
+</html>

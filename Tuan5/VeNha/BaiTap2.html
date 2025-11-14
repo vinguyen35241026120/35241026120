@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flappy Bird</title>
+<style>
+  :root{
+    --game-w: 420px;
+    --game-h: 600px;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Segoe UI Emoji";
+    background:#7ecaff;
+    display:grid;
+    place-items:center;
+    min-height:100vh;
+  }
+
+  /* Khung game */
+  #game{
+    position:relative;
+    width:var(--game-w);
+    height:var(--game-h);
+    overflow:hidden;
+    background: linear-gradient(#87CEFA 60%, #c2f2ff 100%);
+    border-radius:16px;
+    box-shadow:0 12px 40px rgba(0,0,0,.25);
+  }
+
+  /* Mặt đất đơn giản */
+  .ground{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:80px;
+    background: repeating-linear-gradient(
+      -45deg,
+      #8BC34A 0 20px,
+      #7CB342 20px 40px
+    );
+  }
+
+  /* Điểm & level */
+  .hud{
+    position:absolute;
+    left:10px; top:8px;
+    color:#004;
+    text-shadow:0 2px 0 #fff6;
+    font-weight:700;
+    font-size:16px;
+    line-height:1.2;
+    user-select:none;
+  }
+  .hud .level{font-size:18px}
+  .score{
+    position:absolute;
+    right:10px; top:8px;
+    font-weight:800;
+    color:#004;
+    text-shadow:0 2px 0 #fff6;
+    user-select:none;
+    font-size:20px;
+  }
+
+  /* Bird */
+  .bird{
+    --size: 138px;
+    position:absolute;
+    left:80px;
+    top:200px;
+    width:var(--size);
+    height:var(--size);
+    background: var(--bird-url) center/cover no-repeat;
+    filter: drop-shadow(0 4px 2px rgba(0,0,0,.2));
+    transform-origin:center;
+    border-radius:50%;
+  }
+
+  /* Pipe */
+  .pipe{
+    --pipe-w: 70px;
+    position:absolute;
+    top:0;
+    left:100%;
+    width:var(--pipe-w);
+    height:100%;
+  }
+  .pipe .top,
+  .pipe .bottom{
+    position:absolute;
+    left:0;
+    width:100%;
+    background: var(--pipe-url) center/cover no-repeat;
+  }
+  .pipe .top{
+    top:0;
+    transform: scaleY(-1);
+    border-bottom-left-radius:6px;
+    border-bottom-right-radius:6px;
+  }
+  .pipe .bottom{
+    bottom:80px; /* chừa nền */
+    border-top-left-radius:6px;
+    border-top-right-radius:6px;
+  }
+
+  /* Overlay thông báo */
+  .overlay{
+    position:absolute; inset:0;
+    background: rgba(0,0,0,.45);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#fff;
+    padding:24px;
+  }
+  .overlay.show{ display:flex; }
+  .dialog{
+    background:#ffffffee;
+    color:#123;
+    border-radius:16px;
+    padding:20px 18px;
+    width:min(320px, 90%);
+    box-shadow:0 12px 40px rgba(0,0,0,.25);
+  }
+  .dialog h2{margin:.2em 0 .4em}
+  .dialog p{margin:.3em 0}
+  .btn{
+    display:inline-block;
+    background:#0d9488;
+    color:#fff; border:0; border-radius:8px;
+    padding:10px 14px; cursor:pointer;
+    margin-top:8px; font-weight:700;
+  }
+  .btn:hover{ filter:brightness(1.05) }
+  .hint{
+    position:absolute; left:50%; bottom:12px; transform:translateX(-50%);
+    background:#ffffffd0; color:#123;
+    padding:6px 10px; border-radius:8px; font-size:13px;
+    user-select:none;
+  }
+</style>
+</head>
+<body>
+
+<div id="game">
+  <div class="hud">
+    <div class="level">Level: <span id="level">1</span></div>
+    <div>Best: <span id="best">0</span></div>
+  </div>
+  <div class="score">Score: <span id="score">0</span></div>
+
+  <div id="bird" class="bird" aria-label="bird" role="img"></div>
+
+  <div class="ground"></div>
+
+  <div id="overlay" class="overlay" aria-live="polite">
+    <div class="dialog">
+      <h2 id="title">Game Over</h2>
+      <p id="message">Bạn đạt 0 điểm.</p>
+      <button id="restart" class="btn">Chơi lại (R)</button>
+    </div>
+  </div>
+
+  <div class="hint">Nhấn <b>Arrow&nbsp;Down</b> để bay lên • Nhấn <b>R</b> để chơi lại</div>
+</div>
+
+<script>
+const CONFIG = {
+  BIRD_URL:
+    "https://www.pngmart.com/files/12/Flappy-Bird-PNG-Image.png",
+  PIPE_URL:
+    "https://toppng.com/uploads/preview/mobile-flappy-bird-version-12-sprites-the-spritersthe-tubo-de-mario-bros-11562922972x2nzafuu7e.png",
+
+  GAP: 150,          // khoảng trống giữa 2 ống
+  PIPE_DISTANCE: 220,// khoảng cách giữa các cặp ống
+  PIPE_SPEED: 2.4,   // tốc độ trôi sang trái (px / tick)
+  GRAVITY: 0.45,     // trọng lực (px / tick)
+  JUMP: -8.8,        // lực nhảy khi nhấn ArrowDown (tốc độ Y)
+  GROUND_H: 80,      // chiều cao mặt đất
+  WIN_SCORE: 50,     // mốc thắng
+  // Mốc Level + thời gian tick (ms)
+  LEVELS: [
+    { minScore: 0,   interval: 40, name: "1" },
+    { minScore: 5,   interval: 30, name: "2" },
+    { minScore: 20,  interval: 25, name: "3" },
+    { minScore: 40,  interval: 20, name: "4" }
+  ]
+};
+
+// gán CSS biến ảnh
+document.documentElement.style.setProperty('--bird-url', `url("${CONFIG.BIRD_URL}")`);
+document.documentElement.style.setProperty('--pipe-url', `url("${CONFIG.PIPE_URL}")`);
+
+const gameEl   = document.getElementById('game');
+const birdEl   = document.getElementById('bird');
+const overlay  = document.getElementById('overlay');
+const titleEl  = document.getElementById('title');
+const msgEl    = document.getElementById('message');
+const btnRestart = document.getElementById('restart');
+const scoreEl  = document.getElementById('score');
+const bestEl   = document.getElementById('best');
+const levelEl  = document.getElementById('level');
+
+const GAME_W = parseInt(getComputedStyle(gameEl).width);
+const GAME_H = parseInt(getComputedStyle(gameEl).height);
+
+let pipes = [];
+let score = 0;
+let best = +localStorage.getItem('flap_best') || 0;
+bestEl.textContent = best;
+
+let tickTimer = null;    // setInterval ID cho vòng lặp
+let spawnTimer = 0;      // đếm để spawn ống mới
+let tickMs = CONFIG.LEVELS[0].interval; // mặc định theo Level 1
+let running = false;
+
+let bird = {
+  x: 80,
+  y: 200,
+  vy: 0,
+  size: parseInt(getComputedStyle(birdEl).width)
+};
+
+// đặt vị trí bird
+function renderBird(){
+  birdEl.style.left = bird.x + 'px';
+  birdEl.style.top  = bird.y + 'px';
+}
+
+// tạo 1 cặp ống
+function createPipe(){
+  const maxTop = GAME_H - CONFIG.GROUND_H - 40;
+  const gap = CONFIG.GAP;
+
+  // chiều cao phần top ngẫu nhiên
+  const topH = Math.floor(60 + Math.random() * (maxTop - gap - 60));
+  const bottomH = maxTop - topH - gap;
+
+  const pipe = document.createElement('div');
+  pipe.className = 'pipe';
+  pipe.style.left = GAME_W + 'px';
+
+  const top = document.createElement('div');
+  top.className = 'top';
+  top.style.height = topH + 'px';
+
+  const bottom = document.createElement('div');
+  bottom.className = 'bottom';
+  bottom.style.height = bottomH + 'px';
+
+  pipe.appendChild(top);
+  pipe.appendChild(bottom);
+  gameEl.appendChild(pipe);
+
+  pipes.push({
+    el: pipe,
+    x: GAME_W,
+    topH,
+    bottomH,
+    passed: false
+  });
+}
+
+// cập nhật tốc độ tick theo level dựa trên điểm
+function updateLevelByScore(){
+  let lvl = CONFIG.LEVELS[0];
+  for(const L of CONFIG.LEVELS){
+    if(score >= L.minScore) lvl = L;
+  }
+  levelEl.textContent = lvl.name;
+
+  if (tickMs !== lvl.interval){
+    tickMs = lvl.interval;
+    if (running){
+      clearInterval(tickTimer);
+      tickTimer = setInterval(tick, tickMs);
+    }
+  }
+}
+
+// kiểm tra va chạm
+function collidePipe(p, px, py, size){
+  const pipeW = parseInt(getComputedStyle(p.el).width);
+  // vùng ống (x range)
+  if (px + size > p.x && px < p.x + pipeW){
+    // chạm phần top?
+    if (py < p.topH) return true;
+    // chạm phần bottom?
+    const gapTop = p.topH + CONFIG.GAP;
+    const bottomTopY = gapTop;
+    const groundTop = GAME_H - CONFIG.GROUND_H;
+    if (py + size > bottomTopY && py + size < groundTop){
+      return true;
+    }
+  }
+  return false;
+}
+
+// dừng game
+function stopGame(textTitle, textMsg){
+  running = false;
+  clearInterval(tickTimer);
+  tickTimer = null;
+
+  titleEl.textContent = textTitle;
+  msgEl.textContent = textMsg;
+  overlay.classList.add('show');
+
+  // lưu best
+  if (score > best){
+    best = score;
+    localStorage.setItem('flap_best', best);
+    bestEl.textContent = best;
+  }
+}
+
+// vòng lặp chính
+function tick(){
+  // 1) Bird: rơi + render
+  bird.vy += CONFIG.GRAVITY;
+  bird.y  += bird.vy;
+
+  // chạm trần
+  if (bird.y < 0) bird.y = 0;
+
+  // chạm đất
+  const groundY = GAME_H - CONFIG.GROUND_H - bird.size;
+  if (bird.y >= groundY){
+    bird.y = groundY;
+    renderBird();
+    stopGame('Game Over', `Bạn chạm đất! Điểm: ${score}`);
+    return;
+  }
+
+  renderBird();
+
+  // 2) Pipes: di chuyển + va chạm + tính điểm
+  spawnTimer += tickMs;
+  // tạo pipe cách nhau PIPE_DISTANCE (quy ra thời gian = quãng đường / tốc độ)
+  const timeToSpawn = CONFIG.PIPE_DISTANCE / CONFIG.PIPE_SPEED * tickMs;
+  if (spawnTimer >= timeToSpawn){
+    spawnTimer = 0;
+    createPipe();
+  }
+
+  for (let i = pipes.length - 1; i >= 0; i--){
+    const p = pipes[i];
+    p.x -= CONFIG.PIPE_SPEED;
+    p.el.style.left = p.x + 'px';
+
+    // check va chạm
+    if (collidePipe(p, bird.x, bird.y, bird.size)){
+      stopGame('Game Over', `Bạn va vào ống! Điểm: ${score}`);
+      return;
+    }
+
+    // đã vượt qua ống chưa (tính điểm 1 lần)
+    const pipeW = parseInt(getComputedStyle(p.el).width);
+    if (!p.passed && p.x + pipeW < bird.x){
+      p.passed = true;
+      score++;
+      scoreEl.textContent = score;
+      updateLevelByScore();
+
+      // thắng
+      if (score >= CONFIG.WIN_SCORE){
+        stopGame('Chiến thắng 🎉', `Xuất sắc! Bạn đạt ${score} điểm (Level ${levelEl.textContent}).`);
+        return;
+      }
+    }
+
+    // loại bỏ ống đã đi khỏi màn
+    if (p.x + pipeW < -10){
+      p.el.remove();
+      pipes.splice(i, 1);
+    }
+  }
+}
+
+// bắt đầu game (hoặc khởi tạo lại)
+function startGame(){
+  // reset
+  overlay.classList.remove('show');
+  pipes.forEach(p => p.el.remove());
+  pipes = [];
+  score = 0;
+  scoreEl.textContent = score;
+  bird.x = 80;
+  bird.y = 200;
+  bird.vy = 0;
+  renderBird();
+  updateLevelByScore();
+  spawnTimer = 0;
+
+  // chạy
+  running = true;
+  clearInterval(tickTimer);
+  tickTimer = setInterval(tick, tickMs);
+}
+
+// xử lý điều khiển
+function handleKey(e){
+  // ArrowDown = vẫy cánh (bay lên)
+  if (e.code === 'ArrowDown'){
+    // nếu chưa chạy thì khởi động
+    if (!running){
+      startGame();
+    }
+    bird.vy = CONFIG.JUMP; // bay lên
+    // xoay nhẹ cho cảm giác
+    birdEl.style.transform = 'rotate(-12deg)';
+    setTimeout(() => birdEl.style.transform = 'rotate(0deg)', 120);
+  }
+  // R = restart nhanh
+  if (e.code === 'KeyR'){
+    startGame();
+  }
+}
+
+document.addEventListener('keydown', handleKey);
+btnRestart.addEventListener('click', startGame);
+
+// khởi tạo hiển thị ban đầu
+renderBird();
+updateLevelByScore();
+</script>
+</body>
+</html>
+
