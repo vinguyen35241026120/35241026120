@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Love App</title>
+<style>
+    body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        transition: 0.5s;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .container {
+        margin-top: 40px;
+    }
+
+    h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    .buttons {
+        margin-top: 20px;
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+    }
+
+    button {
+        padding: 10px 30px;
+        margin: 0 40px;
+        font-size: 24px;
+        cursor: pointer;
+        border-radius: 10px;
+        border: none;
+        transition: 0.3s;
+    }
+
+    #yes { background: #4CAF50; color: white; }
+    #no { background: #f44336; color: white; }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    /* Ảnh đầu tiên */
+    #first-image {
+        width: 350px;
+        margin-top: 30px;
+        border-radius: 10px;
+    }
+
+    /* Giao diện sau khi nhấn CÓ */
+    .result {
+        margin-top: 150px;
+        background: rgba(255,255,255,0.7);
+        display: inline-block;
+        padding: 20px 40px;
+        border-radius: 15px;
+    }
+</style>
+</head>
+
+<body style="background-image: url('https://thuthuatnhanh.com/wp-content/uploads/2020/01/hinh-nen-tinh-yeu-the-hien-bang-chia-khoa-trai-tim.jpg');">
+
+<div class="container" id="main-content">
+    <h1>BẠN CÓ THÍCH MÌNH KHÔNG?</h1>
+
+    <div class="buttons">
+        <button id="yes" onclick="clickYes()">CÓ</button>
+        <button id="no" onclick="clickNo()">KHÔNG</button>
+    </div>
+
+    <img id="first-image" 
+         src="https://demoda.vn/wp-content/uploads/2022/03/anh-tinh-yeu.jpg">
+</div>
+
+
+<script>
+    let countNo = 0;
+
+function clickNo() {
+    countNo++;
+
+    if (countNo < 3) {
+        alert("Có thể bạn nên chọn lại...");
+    } else {
+        // Đổi vị trí bằng order (flexbox)
+        let yesBtn = document.getElementById("yes");
+        let noBtn = document.getElementById("no");
+
+        yesBtn.style.order = "2"; // CÓ đổi sang bên phải
+        noBtn.style.order = "1";  // KHÔNG đổi sang bên trái
+
+        alert("Bấm sai 3 lần rồi đó 😆 Mình đổi vị trí nút nha!");
+    }
+}
+
+function clickYes() {
+    document.body.style.backgroundImage =
+        "url('https://img6.thuthuatphanmem.vn/uploads/2022/03/03/background-loang-mau-dep_092445482.jpg')";
+
+    document.body.innerHTML = `
+        <div class="result">
+            <h1>Xin lỗi... bạn không phải là đối tượng của mình 😢</h1>
+            <p>Nhưng cảm ơn vì đã thành thật nhé ❤️</p>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
+

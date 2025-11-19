@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đồng hồ đếm ngược bằng JS</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        span { border: solid 1px #ACACAC; padding: 2px; }
+    </style>
+
+    <script>
+        var h = null; 
+        var m = null;
+        var s = null;
+
+        var timeout = null;
+
+        function start() {
+            // Lấy giá trị người dùng nhập vào
+            h = parseInt(document.getElementById("h_val").value);
+            m = parseInt(document.getElementById("m_val").value);
+            s = parseInt(document.getElementById("s_val").value);
+
+            // Nếu nhập sai hoặc trống → set = 0
+            if (isNaN(h)) h = 0;
+            if (isNaN(m)) m = 0;
+            if (isNaN(s)) s = 0;
+
+            countdown();
+        }
+
+        function countdown() {
+            // Hiển thị
+            document.getElementById("h").innerHTML = h;
+            document.getElementById("m").innerHTML = m;
+            document.getElementById("s").innerHTML = s;
+
+            // Nếu hết giờ → dừng
+            if (h == 0 && m == 0 && s == 0) {
+                clearTimeout(timeout);
+                alert("Hết giờ!");
+                return;
+            }
+
+            // Giảm giây
+            s--;
+
+            // Nếu giây < 0 → giảm phút
+            if (s < 0) {
+                s = 59;
+                m--;
+            }
+
+            // Nếu phút < 0 → giảm giờ
+            if (m < 0) {
+                m = 59;
+                h--;
+            }
+
+            // Lặp lại sau 1 giây
+            timeout = setTimeout(function() {
+                countdown();
+            }, 1000);
+        }
+
+        function stop() {
+            clearTimeout(timeout);
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <strong>Nhập thông tin ban đầu: <br/></strong>
+        <input type="text" id="h_val" placeholder="Giờ"/> <br/>
+        <input type="text" id="m_val" placeholder="Phút"/> <br/>
+        <input type="text" id="s_val" placeholder="Giây"/>
+        <input type="button" value="Start" onclick="start()"/>
+        <input type="button" value="Stop" onclick="stop()"/>  
+        <br/><br/>
+    </div>
+    
+    <div>
+        <span id="h">Giờ</span> :
+        <span id="m">Phút</span> :
+        <span id="s">Giây</span>
+    </div>
+</body>
+</html>

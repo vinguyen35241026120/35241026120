@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài 2 - Cảnh báo</title>
+</head>
+<body>
+
+<h3>Nhập họ và tên:</h3>
+<input type="text" id="hoten" placeholder="Nhập họ và tên...">
+
+<button onclick="canhBao()">Cảnh báo</button>
+
+<script>
+    function canhBao() {
+        let value = document.getElementById("hoten").value;
+        alert("Truy tìm " + value);
+    }
+</script>
+
+</body>
+</html>

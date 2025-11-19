@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dropdown Menu</title>
+
+    <style type="text/css">
+        #dropdown {
+            width: 200px
+        }
+        #dropdown li{
+            list-style:none;
+            line-height: 30px;
+            background: blue;
+            margin: 2px;
+            cursor: pointer;
+        }
+
+        #dropdown li a{
+            margin-left: 10px;
+            color: #FFF;
+            text-decoration: none;
+        }
+
+        #dropdown ul{
+            display:none;
+            padding: 0px;
+            background: pink
+        }
+
+        #dropdown ul li{
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+
+<ul id="dropdown">
+    <li><a href="#">Trang chủ</a></li>
+
+    <li class="has-sub">
+        <a>Sản phẩm</a>
+        <ul>
+            <li><a href="#">Gạch cao cấp</a></li>
+            <li><a href="#">Gạch thủ công</a></li>
+            <li><a href="#">Gạch hoa văn</a></li>
+        </ul>
+    </li>
+
+    <li class="has-sub">
+        <a>Tin tức</a>
+        <ul>
+            <li><a href="#">Tin công nghệ</a></li>
+            <li><a href="#">Tin trong nước</a></li>
+            <li><a href="#">Tin thời sự</a></li>
+        </ul>
+    </li>
+
+    <li class="has-sub">
+        <a>Dịch vụ</a>
+        <ul>
+            <li><a href="#">Thiết kế web</a></li>
+            <li><a href="#">Quảng cáo web</a></li>
+            <li><a href="#">Thiết kế đồ họa</a></li>
+        </ul>
+    </li>
+</ul>
+
+<script>
+    // Lấy tất cả menu có submenu
+    const menus = document.querySelectorAll("#dropdown .has-sub");
+
+    menus.forEach(menu => {
+        menu.addEventListener("click", function (event) {
+            
+            // Không cho sự kiện click lan lên <li> cha
+            event.stopPropagation();
+
+            // Tìm submenu
+            let submenu = this.querySelector("ul");
+
+            // Toggle hiện/ẩn
+            if (submenu.style.display === "block") {
+                submenu.style.display = "none";
+            } else {
+                // Ẩn các submenu khác trước khi mở submenu hiện tại
+                document.querySelectorAll("#dropdown ul").forEach(ul => ul.style.display = "none");
+                submenu.style.display = "block";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
